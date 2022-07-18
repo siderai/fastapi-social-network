@@ -1,11 +1,13 @@
 from datetime import date
 from typing import List, Optional
-from pydantic import BaseModel
+
+from pydantic import BaseModel, EmailStr
 
 
 class User(BaseModel):
     id: int
     username: str
+
     first_name: str
     last_name: str
     signup_date: Optional[date]
