@@ -3,16 +3,58 @@ name = "fastapi-social-network"
 version = "0.1.0"
 description = ""
 authors = ["Alexander Sidorov <sidai@bk.ru>"]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
 fastapi = "^0.79.0"
+uvicorn = "^0.18.2"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+pydantic = { extras = ["email", "dotenv"], version = "^1.9.1"}
+SQLAlchemy = "^1.4.39"
+psycopg2-binary = "^2.9.3"
+asyncpg = "^0.26.0"
+databases = {extras = ["asyncpg"], version = "^0.6.0"}
+loguru = "^0.6.0"
+PyJWT = "^2.4.0"
+
 
 [tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0"
+pytest-asyncio = "^0.18.0"
+pytest-env = "^0.6.2"
+pytest-xdist = "^2.4.0"
+
 mypy = "^0.961"
 flake8 = "^4.0.1"
-pytest = "^7.1.2"
 isort = "^5.10.1"
+black = "^22.6.0"
+wemake-python-styleguide = "^0.16.1"
+
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+filterwarnings = "error"
+addopts = '''
+  --strict-markers
+  --tb=short
+  --cov=app
+  --cov=tests
+  --cov-branch
+  --cov-report=term-missing
+  --cov-report=html
+  --cov-report=xml
+  --no-cov-on-fail
+  --cov-fail-under=100
+  --numprocesses=auto
+  --asyncio-mode=auto
+'''
+env = [
+  "SECRET_KEY=secret",
+  "MAX_CONNECTIONS_COUNT=1",
+  "MIN_CONNECTIONS_COUNT=1"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
