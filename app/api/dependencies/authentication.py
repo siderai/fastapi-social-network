@@ -5,18 +5,19 @@ from fastapi.security import APIKeyHeader
 from starlette import requests, status
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from core.config import get_app_settings
-from core.settings.app import AppSettings
-from db.errors import EntityDoesNotExist
-from db.repositories.users import UsersRepository
-from models.domain.users import User
-from resources import strings
-from services import jwt
+from app.api.dependencies.database import get_repository
+from app.core.config import get_app_settings
+from app.core.settings.app import AppSettings
+from app.db.errors import EntityDoesNotExist
+from app.db.repositories.users import UsersRepository
+from app.models.domain.users import User
+from app.resources import strings
+from app.services import jwt
 
 HEADER_KEY = "Authorization"
 
 
-class RWAPIKeyHeader(APIKeyHeader):
+class SNAPIKeyHeader(APIKeyHeader):
     async def __call__(  # noqa: WPS610
         self,
         request: requests.Request,
@@ -42,7 +43,7 @@ def _get_authorization_header_retriever(
 
 
 def _get_authorization_header(
-    api_key: str = Security(RWAPIKeyHeader(name=HEADER_KEY)),
+    api_key: str = Security(SNAPIKeyHeader(name=HEADER_KEY)),
     settings: AppSettings = Depends(get_app_settings),
 ) -> str:
     try:
@@ -63,7 +64,7 @@ def _get_authorization_header(
 
 def _get_authorization_header_optional(
     authorization: Optional[str] = Security(
-        RWAPIKeyHeader(name=HEADER_KEY, auto_error=False),
+        SNAPIKeyHeader(name=HEADER_KEY, auto_error=False),
     ),
     settings: AppSettings = Depends(get_app_settings),
 ) -> str:
@@ -74,7 +75,7 @@ def _get_authorization_header_optional(
 
 
 async def _get_current_user(
-    # users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
+    users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
     token: str = Depends(_get_authorization_header_retriever()),
     settings: AppSettings = Depends(get_app_settings),
 ) -> User:
@@ -99,7 +100,7 @@ async def _get_current_user(
 
 
 async def _get_current_user_optional(
-    # repo: UsersRepository = Depends(get_repository(UsersRepository)),
+    repo: UsersRepository = Depends(get_repository(UsersRepository)),
     token: str = Depends(_get_authorization_header_retriever(required=False)),
     settings: AppSettings = Depends(get_app_settings),
 ) -> Optional[User]:
