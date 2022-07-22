@@ -1,6 +1,6 @@
-from app.models.common import DateTimeModelMixin, IDModelMixin
-from app.models.domain.base import SNModel
-from app.models.domain.users import User
+from models.common import DateTimeModelMixin, IDModelMixin
+from models.domain.base import SNModel
+from models.domain.users import User
 
 
 class Post(IDModelMixin, DateTimeModelMixin, SNModel):

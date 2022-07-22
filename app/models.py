@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, DateTime, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from sqlalchemy.types import Date
@@ -25,14 +27,15 @@ class User(Base):
     country = Column(String(80))
     city = Column(String(50))
 
-    created_at = Column(DateTime(), default=datetime.now)
-    updated_at = Column(DateTime(), default=datetime.now, onupdate=datetime.now)
-
     def __repr__(self):
         return f"User(id={self.id!r}, \
                       username={self.username!r}, \
                       fullname={self.first_name!r} {self.last_name!r}, \
                       email={self.email!r})"
+
+
+# created_at = Column(DateTime(), default=datetime.now)
+# updated_at = Column(DateTime(), default=datetime.now, onupdate=datetime.now)
 
 
 Base.metadata.create_all(bind=engine)

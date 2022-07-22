@@ -1,9 +1,9 @@
 import datetime
 from typing import List, Optional
 
-from app.models.common import IDModelMixin
-from app.models.domain.snmodel import SNModel
-from app.services import security
+from models.common import IDModelMixin
+from models.domain.snmodel import SNModel
+from services import security
 from pydantic import EmailStr
 
 
