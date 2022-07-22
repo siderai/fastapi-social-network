@@ -1,19 +1,19 @@
-from fastapi import APIRouter, Body, Depends, HTTPException
-from starlette.status import HTTP_400_BAD_REQUEST
+# from fastapi import APIRouter, Body, Depends, HTTPException
+# from starlette.status import HTTP_400_BAD_REQUEST
 
-from api.dependencies.authentication import get_current_user_authorizer
+# from api.dependencies.authentication import get_current_user_authorizer
 
-# from api.dependencies.database import get_repository
-from core.config import get_app_settings
-from core.settings.app import AppSettings
-from db.repositories.users import UsersRepository
-from models.domain.users import User
-from models.schemas.users import UserInResponse, UserInUpdate, UserWithToken
-from resources import strings
-from services import jwt
-from services.authentication import check_email_is_taken, check_username_is_taken
+# # from api.dependencies.database import get_repository
+# from core.config import get_app_settings
+# from core.settings.app import AppSettings
+# from db.repositories.users import UsersRepository
+# from models.domain.users import User
+# from models.schemas.users import UserInResponse, UserInUpdate, UserWithToken
+# from resources import strings
+# from services import jwt
+# from services.authentication import check_email_is_taken, check_username_is_taken
 
-router = APIRouter()
+# router = APIRouter()
 
 
 # @router.get("", response_model=UserInResponse, name="users:get-current-user")
