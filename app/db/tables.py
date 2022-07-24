@@ -1,9 +1,7 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
-
 
 DATABASE_URL = "postgresql+asyncpg://postgres:postgres@localhost/asyncalchemy"
 
@@ -27,7 +25,7 @@ class User(Base):
     username = Column(String(30), nullable=False, index=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
-    email = Column(String(30), nullable=False, index=True)
+    email = Column(String(30), nullable=False)
     password = Column(String(30), nullable=False)
     image = Column(String(255))
     # friends = relationship("User", back_populates="Friend")
