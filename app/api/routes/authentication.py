@@ -1,19 +1,19 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
-from app.core.config import get_app_settings
-from app.core.settings.app import AppSettings
-from app.db.errors import EntityDoesNotExist
-from app.db.repositories.users import UsersRepository
-from app.models.schemas.users import (
+from core.config import get_app_settings
+from core.settings.app import AppSettings
+# from db.errors import EntityDoesNotExist
+# from db.repositories.users import UsersRepository
+from models.schemas.users import (
     UserInCreate,
     UserInLogin,
     UserInResponse,
     UserWithToken,
 )
-from app.resources import strings
-from app.services import jwt
-from app.services.authentication import check_email_is_taken, check_username_is_taken
+from resources import strings
+from services import jwt
+from services.authentication import check_email_is_taken, check_username_is_taken
 
 router = APIRouter()
 
@@ -30,10 +30,13 @@ async def login(
     )
 
     try:
+        # rewrite using sql alchemy
         user = await users_repo.get_user_by_email(email=user_login.email)
+    # check if sql alchemy has similar exception
     except EntityDoesNotExist as existence_error:
         raise wrong_login_error from existence_error
 
+    # rewrite function with alchemy
     if not user.check_password(user_login.password):
         raise wrong_login_error
 
@@ -41,6 +44,8 @@ async def login(
         user,
         str(settings.secret_key.get_secret_value()),
     )
+
+    # rewrite response
     return UserInResponse(
         user=UserWithToken(
             username=user.username,
