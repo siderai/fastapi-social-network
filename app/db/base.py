@@ -1,7 +1,7 @@
-from typing import AsyncGenerator
-
 from core.config import get_app_settings
+from core.settings.app import AppSettings
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+
 
 settings = get_app_settings()
 
@@ -12,4 +12,4 @@ async_session = AsyncSession(engine, expire_on_commit=False)
 
 async def get_session() -> AsyncSession:
     async with async_session() as session:
-        return session
+        yield session

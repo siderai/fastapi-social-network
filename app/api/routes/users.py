@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Body
-
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -8,32 +7,7 @@ router = APIRouter()
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
-engine = create_engine("sqlite:///database.sqlite", echo=True)
-Session = sessionmaker(bind=engine)
-session = Session()
-
 Base = declarative_base()
-
-
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(30), nullable=False, index=True)
-    first_name = Column(String(30), nullable=False)
-    last_name = Column(String(30), nullable=False)
-    email = Column(String(30), nullable=False, index=True)
-    password = Column(String(30), nullable=False)
-    image = Column(String(255))
-    # friends = relationship("User", back_populates="Friend")
-    country = Column(String(80))
-    city = Column(String(50))
-
-    def __repr__(self):
-        return f"User(id={self.id!r}, \
-                      username={self.username!r}, \
-                      fullname={self.first_name!r} {self.last_name!r}, \
-                      email={self.email!r})"
 
 
 # created_at = Column(DateTime(), default=datetime.now)
@@ -44,6 +18,7 @@ Base.metadata.create_all(bind=engine)
 
 
 from typing import List, Optional
+
 from pydantic import EmailStr
 
 
@@ -69,6 +44,12 @@ class UserInCreate(BaseModel):
 #     {"id": 2, "username": "B"},
 #     {"id": 3, "username": "C"},
 # }
+
+
+
+# engine = create_engine("sqlite:///database.sqlite", echo=True)
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 
 @router.get("/users/{user_id}")
