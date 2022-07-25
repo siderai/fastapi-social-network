@@ -3,8 +3,8 @@ from typing import List, Optional
 
 from models.common import IDModelMixin
 from models.domain.snmodel import SNModel
-from services import security
 from pydantic import EmailStr
+from services import security
 
 
 class User(SNModel):
